@@ -25,15 +25,19 @@ package main
  	return dice[rand.Intn(len(dice))]
  }
 
- func findMax(scores []int) (score int) {
+ func findMax(players []string, scores []int) (name string, score int) {
 	score = scores[0]
-	for _, value := range scores {
-		if value > score {
-			score = value
+	name = players[0]
+	for i, value := range scores {
+		for j, _ := range players {
+			if value > score && j == i {
+				name = players[j]
+				score = value
+			}
 		}
 	}
-	return score
-}
+	return name, score
+ }
 
  func main() {
 	var n int
@@ -62,5 +66,7 @@ package main
 		results = append(results, Result{Players: names[l], Score: scores[l]})
 	}
 
+	name, skor := findMax(names, scores)
 	fmt.Println(results)
+	fmt.Println("Win => ", name, " with skor : ", skor)
  }
